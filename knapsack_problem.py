@@ -1,35 +1,38 @@
 from copy import *
 from math import *
+
+from typing import Callable
+
 import random
 
 
 class GeneticAlgorithmn:
-    def __init__(self, bits_per_individual, population_size):
+    def __init__(self, bits_per_individual: int, population_size: int):
         new_individual = lambda: [random.choice([0, 1]) for _ in range(bits_per_individual)]
         self.population = [ new_individual() for _ in range(population_size)]
         self.fitness = [ -inf for _ in range(population_size) ]
         self.next_population = []
 
-    def find_best_individual(self):
+    def find_best_individual(self) -> int:
         best_idx = 0
         for idx in range(len(self.population)):
             if self.fitness[idx] > self.fitness[best_idx]:
                 best_idx = idx
         return best_idx
 
-    def select_individual(self):
+    def select_individual(self) -> list:
         pass
 
-    def fitness_phase(self, eval_function):
+    def fitness_phase(self, eval_function: Callable):
         pass
 
-    def crossover_phase(self, children_number):
+    def crossover_phase(self, children_number: int):
         pass
 
-    def mutation_phase(self, mutant_number):
+    def mutation_phase(self, mutant_number: int):
         pass
 
-    def selection_phase(self, selected_number):
+    def selection_phase(self, selected_number: int):
         pass
 
     def switch_to_next_generation(self):
