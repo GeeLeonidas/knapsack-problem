@@ -28,7 +28,22 @@ class GeneticAlgorithmn:
 
 
 def main():
-    print("Hello World!")
+    random.seed()
+    
+    bits_per_individual = 20
+    children_number = 20
+    mutant_number = 10
+    selected_number = 30
+    generations = 250
+    
+    population_size = children_number + mutant_number + selected_number
+    ga = GeneticAlgorithmn(bits_per_individual, population_size)
+    for n in range(generations):
+        ga.fitness_phase(lambda individual: -inf)
+        ga.crossover_phase(children_number)
+        ga.mutation_phase(mutant_number)
+        ga.selection_phase(selected_number)
+        ga.switch_to_next_generation()
 
 
 if __name__ == "__main__":
