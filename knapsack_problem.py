@@ -17,6 +17,9 @@ class GeneticAlgorithmn:
                 best_idx = idx
         return best_idx
 
+    def select_individual(self):
+        pass
+
     def fitness_phase(self, eval_function):
         pass
 
