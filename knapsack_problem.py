@@ -10,6 +10,13 @@ class GeneticAlgorithmn:
         self.fitness = [ -inf for _ in range(population_size) ]
         self.next_population = []
 
+    def find_best_individual(self):
+        best_idx = 0
+        for idx in range(len(self.population)):
+            if self.fitness[idx] > self.fitness[best_idx]:
+                best_idx = idx
+        return best_idx
+
     def fitness_phase(self, eval_function):
         pass
 
@@ -43,6 +50,12 @@ def main():
         ga.crossover_phase(children_number)
         ga.mutation_phase(mutant_number)
         ga.selection_phase(selected_number)
+
+        best_idx = ga.find_best_individual()
+        print("\nGENERATION ", n+1)
+        print("Best fitness: ", ga.fitness[best_idx])
+        print("Individual:   ", ga.population[best_idx])
+
         ga.switch_to_next_generation()
 
 
