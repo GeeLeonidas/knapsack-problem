@@ -21,19 +21,19 @@ class GeneticAlgorithmn:
         return best_idx
 
     def select_individual(self) -> list:
-        pass
+        pass # TODO: Retornar indivíduo com método roleta ou torneio
 
     def fitness_phase(self, eval_function: Callable):
-        pass
+        pass # TODO: Atualizar `fitness` de todos indivíduos
 
     def crossover_phase(self, children_number: int):
-        pass
+        pass # TODO: Realizar recombinação "one-point" ou "two-point" para gerar n indivíduos (n = `children_number`)
 
     def mutation_phase(self, mutant_number: int):
-        pass
+        pass # TODO: Realizar mutação para gerar m indivíduos (m = `mutant_number`)
 
     def selection_phase(self, selected_number: int):
-        pass
+        pass # TODO: Selecionar k indivíduos para a próxima geração (k = `selected_number`)
 
     def switch_to_next_generation(self):
         self.population = deepcopy(self.next_population)
