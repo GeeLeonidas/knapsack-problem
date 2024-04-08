@@ -40,6 +40,33 @@ class GeneticAlgorithmn:
         self.next_population = []
 
 
+def fitness_function(individual: list) -> float:
+    items = [
+        # Nome | Preço | Peso
+        ("Barraca", 150, 3.5)
+        ("Saco de dormir", 100, 2.0)
+        ("Isolante térmico", 50, 0.5)
+        ("Colchão inflável", 80, 1.0)
+        ("Lanterna", 30, 0.2)
+        ("Kit de primeiros socorros", 20, 0.5)
+        ("Repelente de insetos", 15, 0.1)
+        ("Protetor solar", 20, 0.2)
+        ("Canivete", 10, 0.1)
+        ("Mapa e bússola", 25, 0.3)
+        ("Garrafa de água", 15, 1.8)
+        ("Filtro de água", 50, 0.5)
+        ("Comida (ração liofilizada)", 50, 3.0)
+        ("Fogão de camping", 70, 1.5)
+        ("Botijão de gás", 30, 1.2)
+        ("Prato, talheres e caneca", 20, 0.5)
+        ("Roupas (conjunto)", 80, 1.5)
+        ("Calçados (botas)", 120, 2.0)
+        ("Toalha", 20, 0.5)
+        ("Kit de higiene pessoal", 30, 0.5)
+    ]
+    return -inf # TODO: Pontuação do indivíduo (-inf para indivíduos que passarem do limite de peso)
+
+
 def main():
     random.seed()
     
@@ -52,7 +79,7 @@ def main():
     population_size = children_number + mutant_number + selected_number
     ga = GeneticAlgorithmn(bits_per_individual, population_size)
     for n in range(generations):
-        ga.fitness_phase(lambda individual: -inf)
+        ga.fitness_phase(fitness_function)
         ga.crossover_phase(children_number)
         ga.mutation_phase(mutant_number)
         ga.selection_phase(selected_number)
