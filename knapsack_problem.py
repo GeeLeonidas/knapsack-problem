@@ -29,8 +29,23 @@ class GeneticAlgorithmn:
     def crossover_phase(self, children_number: int):
         pass # TODO: Realizar recombinação "one-point" ou "two-point" para gerar n indivíduos (n = `children_number`)
 
+    # Mutação que seleciona m (m = mutant_number) indivíduos diferentes para gerar os mutantes
     def mutation_phase(self, mutant_number: int):
-        pass # TODO: Realizar mutação para gerar m indivíduos (m = `mutant_number`)
+        mutant_idxs = random.sample(range(0, population_size - 1), mutant_number)
+        for idx in range(mutant_number):
+            mutant_idx = mutant_idxs[idx]
+            mutant_bit_idx = random.randint(0, bits_per_individual - 1)
+            self.population[mutant_idx][mutant_bit_idx] = 1 - self.population[mutant_idx][mutant_bit_idx]
+
+    # Mutação que pode selecionar o mesmo indivíduo para gerar mais de um mutante
+    # Necessidade de armazenar os mutantes para não haver perda de mutante que sofra nova mutação
+    def mutation_phase_option_2(self, mutant_number: int):
+        mutants = []
+        for idx in range(mutant_number):
+            mutant_idx = random.randint(0, population_size - 1)
+            mutant_bit_idx = random.randint(0, bits_per_individual - 1)
+            self.population[mutant_idx][mutant_bit_idx] = 1 - self.population[mutant_idx][mutant_bit_idx]
+            mutants.append(self.population[mutant_idx][mutant_bit_idx])
 
     def selection_phase(self, selected_number: int):
         pass # TODO: Selecionar k indivíduos para a próxima geração (k = `selected_number`)
