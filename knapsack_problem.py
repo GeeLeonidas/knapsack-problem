@@ -24,7 +24,8 @@ class GeneticAlgorithmn:
         pass # TODO: Retornar indivíduo com método roleta ou torneio
 
     def fitness_phase(self, eval_function: Callable):
-        pass # TODO: Atualizar `fitness` de todos indivíduos
+        for idx in range(len(self.population)):
+            self.fitness[idx] = eval_function(self.population[idx])
 
     def crossover_phase(self, children_number: int):
         pass # TODO: Realizar recombinação "one-point" ou "two-point" para gerar n indivíduos (n = `children_number`)
@@ -56,7 +57,17 @@ class GeneticAlgorithmn:
 
 
 def fitness_function(individual: list, items: list) -> float:
-    return -inf # TODO: Pontuação do indivíduo (-inf para indivíduos que passarem do limite de peso)
+    total_weight = 0
+    total_cost = 0
+    for idx, bit in enumerate(individual):
+        if bit != 0:
+            total_cost += items[idx][1]
+            total_weight += items[idx][2]
+        
+    if total_weight <= 15:
+        return total_cost # O fitness do indivíduo é o custo total (maior custo => melhor fitness)
+
+    return -inf # Ultrapassou o limite de peso
 
 
 def main():
