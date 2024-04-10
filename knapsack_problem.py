@@ -4,7 +4,7 @@ from math import *
 from typing import Callable
 
 import random
-
+import matplotlib.pyplot as plt
 
 class GeneticAlgorithmn:
     def __init__(self, bits_per_individual: int, population_size: int):
@@ -70,6 +70,14 @@ def fitness_function(individual: list, items: list) -> float:
     return -inf # Ultrapassou o limite de peso
 
 
+def plot_fitness_graphic(fitness: list, generations: int):
+    plt.plot(list(range(0, generations)), fitness)
+    plt.title("Melhor indivíduo pelas gerações")
+    plt.xlabel("Número de gerações")
+    plt.ylabel("Melhor fitness")
+    plt.show()
+
+
 def main():
     random.seed()
     
@@ -106,6 +114,7 @@ def main():
     population_size = children_number + mutant_number + selected_number
     eval_function = lambda individual: fitness_function(individual, items)
     ga = GeneticAlgorithmn(bits_per_individual, population_size)
+    fitness_history = [] # Armazena melhor fitness por geração
     for n in range(generations):
         ga.fitness_phase(eval_function)
         ga.crossover_phase(children_number)
@@ -113,12 +122,14 @@ def main():
         ga.selection_phase(selected_number)
 
         best_idx = ga.find_best_individual()
+        fitness_history.append(ga.fitness[best_idx])
         print("\nGENERATION ", n+1)
         print("Best fitness: ", ga.fitness[best_idx])
         print("Individual:   ", ga.population[best_idx])
 
         ga.switch_to_next_generation()
 
+    plot_fitness_graphic(fitness_history, generations)
 
 if __name__ == "__main__":
     main()
