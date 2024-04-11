@@ -6,6 +6,15 @@ from typing import Callable
 import random
 import matplotlib.pyplot as plt
 
+# Constants
+bits_per_individual = 20
+children_number = 20
+mutant_number = 10
+selected_number = 30
+generations = 250
+
+population_size = children_number + mutant_number + selected_number
+
 class GeneticAlgorithmn:
     def __init__(self, bits_per_individual: int, population_size: int):
         new_individual = lambda: [random.choice([0, 1]) for _ in range(bits_per_individual)]
@@ -21,14 +30,53 @@ class GeneticAlgorithmn:
         return best_idx
 
     def select_individual(self) -> list:
-        pass # TODO: Retornar indivíduo com método roleta ou torneio
+        """
+        Selects two individuals for crossover using tournament selection
+        """
+        selected = []
+        idxs = []
+
+        for _ in range(4):
+            idxs.append(random.randint(0, population_size - 1))
+
+        selected.append(self.population[idxs[0]] if self.fitness[idxs[0]] > self.fitness[idxs[1]] else self.population[idxs[1]])
+        selected.append(self.population[idxs[2]] if self.population[idxs[2]] > self.population[idxs[3]] else self.population[idxs[3]])
+
+        return selected
 
     def fitness_phase(self, eval_function: Callable):
         for idx in range(len(self.population)):
             self.fitness[idx] = eval_function(self.population[idx])
 
-    def crossover_phase(self, children_number: int):
-        pass # TODO: Realizar recombinação "one-point" ou "two-point" para gerar n indivíduos (n = `children_number`)
+    def crossover_phase_one_point(self, children_number: int):
+        """
+        Executes a one-point crossover on the population
+        """
+        children = []
+        for _ in range(children_number):
+            parents = self.select_individual()
+
+            crossover_point = random.randint(1, bits_per_individual - 2)
+
+            children.append(parents[0][:crossover_point] + parents[1][crossover_point:])
+
+        self.population.extend(children)
+
+
+    def crossover_phase_two_point(self, children_number: int):
+        """
+        Executes a two-point crossover on the population
+        """
+        children = []
+        for _ in range(children_number):
+            parents = self.select_individual()
+
+            crossover_point_1 = random.randint(1, bits_per_individual - 2)
+            crossover_point_2 = random.randint(1, bits_per_individual - 2)
+
+            children.append(parents[0][:crossover_point_1] + parents[1][crossover_point_1:crossover_point_2] + parents[0][crossover_point_2:])
+
+        self.population.extend(children)
 
     # Mutação que seleciona m (m = mutant_number) indivíduos diferentes para gerar os mutantes
     def mutation_phase(self, mutant_number: int):
@@ -97,41 +145,34 @@ def main():
     
     items = [
         # Nome | Preço | Peso
-        ("Barraca", 150, 3.5)
-        ("Saco de dormir", 100, 2.0)
-        ("Isolante térmico", 50, 0.5)
-        ("Colchão inflável", 80, 1.0)
-        ("Lanterna", 30, 0.2)
-        ("Kit de primeiros socorros", 20, 0.5)
-        ("Repelente de insetos", 15, 0.1)
-        ("Protetor solar", 20, 0.2)
-        ("Canivete", 10, 0.1)
-        ("Mapa e bússola", 25, 0.3)
-        ("Garrafa de água", 15, 1.8)
-        ("Filtro de água", 50, 0.5)
-        ("Comida (ração liofilizada)", 50, 3.0)
-        ("Fogão de camping", 70, 1.5)
-        ("Botijão de gás", 30, 1.2)
-        ("Prato, talheres e caneca", 20, 0.5)
-        ("Roupas (conjunto)", 80, 1.5)
-        ("Calçados (botas)", 120, 2.0)
-        ("Toalha", 20, 0.5)
-        ("Kit de higiene pessoal", 30, 0.5)
+        ("Barraca", 150, 3.5),
+        ("Saco de dormir", 100, 2.0),
+        ("Isolante térmico", 50, 0.5),
+        ("Colchão inflável", 80, 1.0),
+        ("Lanterna", 30, 0.2),
+        ("Kit de primeiros socorros", 20, 0.5),
+        ("Repelente de insetos", 15, 0.1),
+        ("Protetor solar", 20, 0.2),
+        ("Canivete", 10, 0.1),
+        ("Mapa e bússola", 25, 0.3),
+        ("Garrafa de água", 15, 1.8),
+        ("Filtro de água", 50, 0.5),
+        ("Comida (ração liofilizada)", 50, 3.0),
+        ("Fogão de camping", 70, 1.5),
+        ("Botijão de gás", 30, 1.2),
+        ("Prato, talheres e caneca", 20, 0.5),
+        ("Roupas (conjunto)", 80, 1.5),
+        ("Calçados (botas)", 120, 2.0),
+        ("Toalha", 20, 0.5),
+        ("Kit de higiene pessoal", 30, 0.5),
     ]
     
-    bits_per_individual = 20
-    children_number = 20
-    mutant_number = 10
-    selected_number = 30
-    generations = 250
-    
-    population_size = children_number + mutant_number + selected_number
     eval_function = lambda individual: fitness_function(individual, items)
     ga = GeneticAlgorithmn(bits_per_individual, population_size)
     fitness_history = [] # Armazena melhor fitness por geração
     for n in range(generations):
         ga.fitness_phase(eval_function)
-        ga.crossover_phase(children_number)
+        ga.crossover_phase_one_point(children_number)
         ga.mutation_phase(mutant_number)
         ga.selection_phase(selected_number)
 
