@@ -102,7 +102,8 @@ class GeneticAlgorithmn:
         self.next_population.extend(mutants)
 
     def selection_phase(self, selected_number: int):
-        pass # TODO: Selecionar k indivíduos para a próxima geração (k = `selected_number`)
+        selected_individuals = [ self.select_individual() for _ in range(selected_number) ]
+        self.next_population.extend(selected_individuals)
 
     def switch_to_next_generation(self):
         self.population = self.next_population
@@ -171,7 +172,7 @@ def main():
         ("Toalha", 20, 0.5),
         ("Kit de higiene pessoal", 30, 0.5),
     ]
-    
+
     eval_function = lambda individual: fitness_function(individual, items)
     ga = GeneticAlgorithmn(bits_per_individual, population_size)
     fitness_history = [] # Armazena melhor fitness por geração
