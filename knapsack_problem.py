@@ -63,8 +63,7 @@ class GeneticAlgorithmn:
 
             children.append(parents[0][:crossover_point] + parents[1][crossover_point:])
 
-        self.population.extend(children)
-
+        self.next_population.extend(children)
 
     def crossover_phase_two_point(self, children_number: int):
         """
@@ -79,7 +78,7 @@ class GeneticAlgorithmn:
 
             children.append(parents[0][:crossover_point_1] + parents[1][crossover_point_1:crossover_point_2] + parents[0][crossover_point_2:])
 
-        self.population.extend(children)
+        self.next_population.extend(children)
 
     # Mutação que seleciona m (m = mutant_number) indivíduos diferentes para gerar os mutantes
     def mutation_phase(self, mutant_number: int):
