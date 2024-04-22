@@ -146,6 +146,15 @@ def plot_fitness_graphic(fitness: list, generations: int):
     plt.show()
 
 
+def individual_inventory(individual: list, items: list) -> str:
+    item_names = []
+    for idx, bit in enumerate(individual):
+        if bit != 0:
+            item_names.append(items[idx][0])
+    
+    return ", ".join(item_names)
+
+
 def main():
     random.seed()
     
@@ -187,6 +196,7 @@ def main():
         print("\nGENERATION ", n+1)
         print("Best fitness: ", ga.fitness[best_idx])
         print("Individual:   ", ga.population[best_idx])
+        print("Inventory:    ", individual_inventory(ga.population[best_idx], items))
 
         ga.switch_to_next_generation()
 
