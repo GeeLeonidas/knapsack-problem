@@ -29,13 +29,13 @@ class GeneticAlgorithmn:
                 best_idx = idx
         return best_idx
 
-    def select_individual(self) -> list:
+    def select_individual(self, tornament_size = 4) -> list:
         """
         Selects an individual for crossover using tournament selection
         """
         idxs = []
 
-        for _ in range(4):
+        for _ in range(tornament_size):
             idxs.append(random.randint(0, len(self.population) - 1))
 
         selected = self.population[idxs[0]]
