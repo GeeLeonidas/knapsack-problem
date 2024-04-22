@@ -48,8 +48,7 @@ class GeneticAlgorithmn:
         return deepcopy(selected)
 
     def fitness_phase(self, eval_function: Callable):
-        for idx in range(len(self.population)):
-            self.fitness[idx] = eval_function(self.population[idx])
+        self.fitness = [ eval_function(individual) for individual in self.population ]
 
     def crossover_phase_one_point(self, children_number: int):
         """
