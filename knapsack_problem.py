@@ -59,7 +59,7 @@ class GeneticAlgorithmn:
         for _ in range(children_number):
             parents = [ self.select_individual(), self.select_individual() ]
 
-            crossover_point = random.randint(1, bits_per_individual - 2)
+            crossover_point = random.randint(1, len(parents[1]) - 2)
 
             children.append(parents[0][:crossover_point] + parents[1][crossover_point:])
 
@@ -73,8 +73,8 @@ class GeneticAlgorithmn:
         for _ in range(children_number):
             parents = [ self.select_individual(), self.select_individual() ]
 
-            crossover_point_1 = random.randint(1, bits_per_individual - 2)
-            crossover_point_2 = random.randint(1, bits_per_individual - 2)
+            crossover_point_1 = random.randint(1, len(parents[0]) - 2)
+            crossover_point_2 = random.randint(1, len(parents[1]) - 2)
 
             children.append(parents[0][:crossover_point_1] + parents[1][crossover_point_1:crossover_point_2] + parents[0][crossover_point_2:])
 
@@ -85,7 +85,7 @@ class GeneticAlgorithmn:
         mutant_idxs = random.sample(range(0, len(self.population) - 1), mutant_number)
         for idx in range(mutant_number):
             mutant_idx = mutant_idxs[idx]
-            mutant_bit_idx = random.randint(0, bits_per_individual - 1)
+            mutant_bit_idx = random.randint(0, len(self.population[mutant_idx]) - 1)
             mutant = deepcopy(self.population[mutant_idx])
             mutant[mutant_bit_idx] = 1 - mutant[mutant_bit_idx]
             self.next_population.append(mutant)
@@ -95,8 +95,8 @@ class GeneticAlgorithmn:
     def mutation_phase_option_2(self, mutant_number: int):
         mutants = []
         for idx in range(mutant_number):
-            mutant_idx = random.randint(0, population_size - 1)
-            mutant_bit_idx = random.randint(0, bits_per_individual - 1)
+            mutant_idx = random.randint(0, len(self.population) - 1)
+            mutant_bit_idx = random.randint(0, len(self.population[mutant_idx]) - 1)
             mutant = deepcopy(self.population[mutant_idx])
             mutant[mutant_bit_idx] = 1 - mutant[mutant_bit_idx]
             mutants.append(mutant)
