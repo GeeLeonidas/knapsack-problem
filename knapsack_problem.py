@@ -31,17 +31,20 @@ class GeneticAlgorithmn:
 
     def select_individual(self) -> list:
         """
-        Selects two individuals for crossover using tournament selection
+        Selects an individual for crossover using tournament selection
         """
-        selected = []
         idxs = []
 
         for _ in range(4):
-            idxs.append(random.randint(0, population_size - 1))
+            idxs.append(random.randint(0, len(self.population) - 1))
 
-        selected.append(self.population[idxs[0]] if self.fitness[idxs[0]] > self.fitness[idxs[1]] else self.population[idxs[1]])
-        selected.append(self.population[idxs[2]] if self.population[idxs[2]] > self.population[idxs[3]] else self.population[idxs[3]])
-
+        selected = self.population[idxs[0]]
+        best_fitness = self.fitness[idxs[0]]
+        for idx in idxs[1:]:
+            if self.fitness[idx] > best_fitness:
+                best_fitness = self.fitness[idx]
+                selected = self.population[idx]
+        
         return selected
 
     def fitness_phase(self, eval_function: Callable):
@@ -54,7 +57,7 @@ class GeneticAlgorithmn:
         """
         children = []
         for _ in range(children_number):
-            parents = self.select_individual()
+            parents = [ self.select_individual(), self.select_individual() ]
 
             crossover_point = random.randint(1, bits_per_individual - 2)
 
@@ -69,7 +72,7 @@ class GeneticAlgorithmn:
         """
         children = []
         for _ in range(children_number):
-            parents = self.select_individual()
+            parents = [ self.select_individual(), self.select_individual() ]
 
             crossover_point_1 = random.randint(1, bits_per_individual - 2)
             crossover_point_2 = random.randint(1, bits_per_individual - 2)
