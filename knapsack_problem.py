@@ -45,7 +45,7 @@ class GeneticAlgorithmn:
                 best_fitness = self.fitness[idx]
                 selected = self.population[idx]
         
-        return selected
+        return deepcopy(selected)
 
     def fitness_phase(self, eval_function: Callable):
         for idx in range(len(self.population)):
@@ -86,7 +86,7 @@ class GeneticAlgorithmn:
         for idx in range(mutant_number):
             mutant_idx = mutant_idxs[idx]
             mutant_bit_idx = random.randint(0, bits_per_individual - 1)
-            mutant = self.population[mutant_idx]
+            mutant = deepcopy(self.population[mutant_idx])
             mutant[mutant_bit_idx] = 1 - mutant[mutant_bit_idx]
             self.next_population.append(mutant)
 
@@ -97,7 +97,7 @@ class GeneticAlgorithmn:
         for idx in range(mutant_number):
             mutant_idx = random.randint(0, population_size - 1)
             mutant_bit_idx = random.randint(0, bits_per_individual - 1)
-            mutant = self.population[mutant_idx]
+            mutant = deepcopy(self.population[mutant_idx])
             mutant[mutant_bit_idx] = 1 - mutant[mutant_bit_idx]
             mutants.append(mutant)
         self.next_population.extend(mutants)
@@ -106,7 +106,7 @@ class GeneticAlgorithmn:
         pass # TODO: Selecionar k indivíduos para a próxima geração (k = `selected_number`)
 
     def switch_to_next_generation(self):
-        self.population = deepcopy(self.next_population)
+        self.population = self.next_population
         self.next_population = []
 
 
