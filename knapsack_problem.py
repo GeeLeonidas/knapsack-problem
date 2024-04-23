@@ -155,6 +155,15 @@ def individual_inventory(individual: list, items: list) -> str:
     return ", ".join(item_names)
 
 
+def individual_weight(individual: list, items: list) -> float:
+    weight = 0
+    for idx, bit in enumerate(individual):
+        if bit != 0:
+            weight += items[idx][2]
+
+    return weight
+
+
 def main():
     random.seed()
     
@@ -197,6 +206,7 @@ def main():
         print("Best fitness: ", ga.fitness[best_idx])
         print("Individual:   ", ga.population[best_idx])
         print("Inventory:    ", individual_inventory(ga.population[best_idx], items))
+        print("Weight: ", individual_weight(ga.population[best_idx], items))
 
         ga.switch_to_next_generation()
 
