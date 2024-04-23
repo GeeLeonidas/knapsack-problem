@@ -127,15 +127,14 @@ def fitness_function(individual: list, items: list) -> float:
 def fitness_function_option_2(individual: list, items: list) -> float:
     total_weight = 0
     total_cost = 0
+    penalty_factor = 51
     for idx, bit in enumerate(individual):
         if bit != 0:
             total_cost += items[idx][1]
             total_weight += items[idx][2]
         
-    if total_weight <= 15:
-        return total_cost # O fitness do indivíduo é o custo total (maior custo => melhor fitness)
-
-    return total_cost - (0.5 * total_weight) # Penalidade por passar o limite
+    penalty = max(0, total_weight - 15) * penalty_factor
+    return total_cost - penalty
 
 
 def plot_fitness_graphic(fitness: list, generations: int):
