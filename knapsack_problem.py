@@ -72,8 +72,10 @@ class GeneticAlgorithmn:
         for _ in range(children_number):
             parents = [ self.select_individual(), self.select_individual() ]
 
-            crossover_point_1 = random.randint(1, len(parents[0]) - 2)
-            crossover_point_2 = random.randint(1, len(parents[1]) - 2)
+            crossover_point_1, crossover_point_2 = sorted([
+                random.randint(1, len(parents[0]) - 2),
+                random.randint(1, len(parents[1]) - 2),
+            ])
 
             children.append(parents[0][:crossover_point_1] + parents[1][crossover_point_1:crossover_point_2] + parents[0][crossover_point_2:])
 
